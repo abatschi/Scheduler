@@ -114,7 +114,7 @@ function sendEmail(groupId, email) {
             to: email, // list of receivers
             subject: 'Add Conflicts', // Subject line
             text: 'Add conflicts', // plain text body
-            html: "<div>http://localhost:3000/conflicts/" + groupId + "/" + email + "</div>" // html body
+            html: "<div>http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/conflicts/" + groupId + "/" + email + "</div>" // html body
         };
 
         // send mail with defined transport object
