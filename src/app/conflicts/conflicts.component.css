@@ -1,0 +1,17 @@
+.date{
+    margin: 10px 0;
+}
+
+button{
+    margin: 15px;
+}
+
+input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid gray;
+}
+
+.times{
+    margin-left:20px;
+}

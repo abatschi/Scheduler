@@ -1,5 +1,13 @@
-<h1>Out MongoDB is working!</h1>
-
-<ul>
-  <li *ngFor="let user of users">{{ user.name }}</li>
-</ul>
+<body>
+  <div id="headerBody">
+    <div id="title" [routerLink]="['/newGroup']">Group Scheduler</div>
+    <div id="image-container">
+      <img id="calendar" src="../assets/images/calendar.jpg">
+    </div>
+  </div>
+  <div id="content-container">
+    <div id="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</body>

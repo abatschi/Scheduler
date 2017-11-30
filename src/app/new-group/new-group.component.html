@@ -1,0 +1,22 @@
+<div id="dateAndTime">
+    <span>This group must meet before </span>
+    <input id="date" type="date">
+    <span> for </span>
+    <input size="2" maxlength="2" type="text" id="hours">
+    <span> hour(s) and </span>
+    <input size="2" maxlength="2" type="text" id="mins">
+    <span> minutes.</span>
+</div>
+
+<div *ngFor="let num of numMembersArray">
+    <span>{{num}}. </span>
+    <input class="emails" type="email" (input)="emailChange($event,num)" placeholder="Email">
+</div>
+
+<div>
+    <button type="button" class="btn btn-primary" (click)="addMember()">Add Member</button>
+</div>
+
+<div>
+    <button type="button" class="btn btn-success" (click)="email()">Invite all members</button>
+</div>
