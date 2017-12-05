@@ -13,6 +13,10 @@ export class NewGroupComponent implements OnInit {
   numMembersArray=[1];
   members=["organizer",""];
 
+  date;
+  numHours;
+  numMinutes;
+
   
 
   constructor(private _dataService: DataService, private router: Router) { }
@@ -26,12 +30,21 @@ export class NewGroupComponent implements OnInit {
     this.members.push("");
   }
 
+  remove(num){
+    this.numMembers--;
+    this.members.splice(num,1);
+    this.numMembersArray.splice(num-1,1);
+    for(let i=num-1; i<this.numMembersArray.length; i++){
+      this.numMembersArray[i]=this.numMembersArray[i]-1;
+    }
+  }
+
   emailChange(event,num){
     this.members[num]=event.target.value;
   }
 
   email(){
-    this._dataService.newGroup(this.members)
+    this._dataService.newGroup(this.members,this.date,this.numHours,this.numMinutes)
       .subscribe((res) => {
         let groupId =  res['_body'];
         groupId = groupId.substring(1,groupId.length-1);

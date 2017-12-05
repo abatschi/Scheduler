@@ -10,6 +10,10 @@ import { NewGroupComponent } from './new-group/new-group.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { FormsModule } from '@angular/forms';
+import { ResultsComponent } from './results/results.component';
+
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatDatepickerModule,MatNativeDateModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 
 const appRoutes: Routes = [
   {
@@ -19,6 +23,10 @@ const appRoutes: Routes = [
   {
     path: 'newGroup',
     component: NewGroupComponent,
+  },
+  {
+    path: 'results/:groupId',
+    component: ResultsComponent,
   },
   {
     path:'',
@@ -34,9 +42,15 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     ConflictsComponent,
-    NewGroupComponent
+    NewGroupComponent,
+    ResultsComponent,
   ],
   imports: [
+    MatInputModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    BrowserAnimationsModule,
     FormsModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(

@@ -1,10 +1,14 @@
 <body>
   <div id="headerBody">
-    <div id="title" [routerLink]="['/newGroup']">Group Scheduler</div>
+    <div id="titleGroup" [routerLink]="['/newGroup']">
+    <div id="title">Group Scheduler</div>
+    <span id="subtitle">Schedule your next group meeting with ease!</span>
+  </div>
     <div id="image-container">
       <img id="calendar" src="../assets/images/calendar.jpg">
     </div>
   </div>
+
   <div id="content-container">
     <div id="content">
       <router-outlet></router-outlet>

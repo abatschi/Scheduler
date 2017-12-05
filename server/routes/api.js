@@ -45,15 +45,15 @@ router.get('/users', (req, res) => {
 });
 
 router.post('/newGroup', (req, res) => {
-    let memberObject = { members: [] };
-    for (var email of req.body) {
+    console.log(req.body);
+    let memberObject = { members: [], date:req.body.date, numHours: req.body.numHours, numMinutes:req.body.numMinutes };
+    for (var email of req.body.users) {
         memberObject.members.push({ email: email, conflicts: [] });
-
     }
     connection((db) => {
         db.collection('groups').insert(memberObject, function (err, docsInserted) {
             var groupId = docsInserted.insertedIds[0];
-            for (var email of req.body) {
+            for (var email of req.body.users) {
                 if (email != 'organizer') {
                     sendEmail(groupId, email);
                 }
@@ -86,12 +86,30 @@ router.post('/newConflicts', (req, res) => {
                             //do calculations and send email here
                         }
                         db.collection('groups').update({ _id: new ObjectID(req.body.groupId) }, group, { upsert: true });
-                    }
 
+                    }
                 }
+                res.send();
             })
     });
 })
+
+router.post('/results', (req, res) => {
+    
+    connection((db) => {
+        db.collection('groups')
+            .find()
+            .toArray()
+            .then((groups) => {
+                for (let group of groups) {
+                    if (group._id == req.body.groupId) {
+                        res.json(group);
+                    }
+                }
+            });
+        });
+        //res.redirect('/results'+req.body.groupId);
+    });
 
 function sendEmail(groupId, email) {
 
@@ -114,7 +132,9 @@ function sendEmail(groupId, email) {
             to: email, // list of receivers
             subject: 'Add Conflicts', // Subject line
             text: 'Add conflicts', // plain text body
-            html: "<div>http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/conflicts/" + groupId + "/" + email + "</div>" // html body
+            // html: "<div>http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/conflicts/" + groupId + "/" + email + "</div>" // html body
+            html: "<div>http://localhost:3000/conflicts/" + groupId + "/" + email + "</div>" // html body
+            
         };
 
         // send mail with defined transport object

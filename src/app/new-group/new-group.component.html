@@ -1,16 +1,21 @@
 <div id="dateAndTime">
     <span>This group must meet before </span>
-    <input id="date" type="date">
+    <mat-form-field>
+        <input [(ngModel)]="date" matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
     <span> for </span>
-    <input size="2" maxlength="2" type="text" id="hours">
+    <input [(ngModel)]="numHours" size="2" maxlength="2" type="text" id="hours">
     <span> hour(s) and </span>
-    <input size="2" maxlength="2" type="text" id="mins">
+    <input [(ngModel)]="numMinutes" size="2" maxlength="2" type="text" id="mins">
     <span> minutes.</span>
 </div>
 
 <div *ngFor="let num of numMembersArray">
     <span>{{num}}. </span>
-    <input class="emails" type="email" (input)="emailChange($event,num)" placeholder="Email">
+    <input class="emails" type="email" (input)="emailChange($event,num)" [(ngModel)]="members[num]" placeholder="Email">
+    <span (click)="remove(num)"><img class="remove" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/2000px-Red_X.svg.png"></span>
 </div>
 
 <div>

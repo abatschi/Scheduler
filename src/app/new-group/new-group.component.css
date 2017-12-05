@@ -11,8 +11,19 @@ button{
     margin: 15px;
 }
 
-input {
+input[type=text] {
     background: transparent;
     border: none;
     border-bottom: 1px solid gray;
+}
+
+input[type=email] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid gray;
+}
+
+.remove{
+    cursor: pointer;
+    width:10px;
 }

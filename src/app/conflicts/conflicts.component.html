@@ -1,12 +1,18 @@
 <div *ngFor="let num of numConflictsArray">
   <span>{{num}}. </span>
-  <input class="date" type="date" (input)="dateChange($event,num)">
+  <mat-form-field>
+    <input [(ngModel)]="conflicts[num-1].date" matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Choose a date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <!-- <input class="date" type="date" [(ngModel)]="conflicts[num-1].date"> -->
   <span class="times">
     <span> From: </span>
-    <input class="fromTime" type="time" value="09:00" (input)="fromTimeChange($event,num)">
+    <input class="fromTime" type="time" value="09:00" [(ngModel)]="conflicts[num-1].fromTime">
     <span> To: </span>
-    <input class="toTime" type="time" value="10:00" (input)="toTimeChange($event,num)">
+    <input class="toTime" type="time" value="10:00" [(ngModel)]="conflicts[num-1].toTime">
   </span>
+  <span (click)="remove(num)"><img class="remove" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/2000px-Red_X.svg.png"></span>  
 </div>
 
 <div>

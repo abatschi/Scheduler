@@ -6,7 +6,7 @@ button{
     margin: 15px;
 }
 
-input {
+input[type=time] {
     background: transparent;
     border: none;
     border-bottom: 1px solid gray;
@@ -14,4 +14,9 @@ input {
 
 .times{
     margin-left:20px;
+}
+
+.remove{
+    cursor: pointer;
+    width:10px;
 }
