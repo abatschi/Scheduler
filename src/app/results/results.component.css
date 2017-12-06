@@ -1,3 +1,46 @@
 #myCalendar{
+    float:left;
     width:200px;
+}
+
+#container{
+    margin-top: 60px;
+    float:right;
+    border: rgb(122, 122, 122) 1px solid;
+    /* padding: 35px; */
+    box-shadow: 0px 0px 20px 10px darkgrey;
+}
+
+#amOrPm{
+    border-bottom: rgb(122, 122, 122) 1px solid;
+    background: lightgray;
+    padding: 10px 35px;
+}
+
+#hours{
+    margin: 10px 0px 0px 0px;
+    border-bottom: rgb(122, 122, 122) 1px solid;
+    width: 740px;
+}
+
+.hour{
+    margin: 0px 7.8px;
+}
+
+#pm{
+    float: right;
+    padding-right: 65px;
+}
+
+#am{
+    padding-left: 65px;
+}
+
+#barBlock{
+    height:58px;
+}
+
+.block{
+    border: gray 1px solid;
+    padding: 2px 20px 40px 12px;
 }

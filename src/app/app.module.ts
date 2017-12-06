@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { ResultsComponent } from './results/results.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatDatepickerModule,MatNativeDateModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import {MatIconModule,MatCardModule, MatDatepickerModule,MatNativeDateModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 
 const appRoutes: Routes = [
   {
@@ -46,6 +46,8 @@ const appRoutes: Routes = [
     ResultsComponent,
   ],
   imports: [
+    MatIconModule,
+    MatCardModule,
     MatInputModule,
     MatFormFieldModule,
     MatNativeDateModule,

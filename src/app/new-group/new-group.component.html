@@ -1,25 +1,29 @@
-<div id="dateAndTime">
+<mat-card id="dateAndTime">
     <span>This group must meet before </span>
-    <mat-form-field>
+    <mat-form-field id="dateForm">
         <input [(ngModel)]="date" matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+    </mat-form-field>
     <span> for </span>
     <input [(ngModel)]="numHours" size="2" maxlength="2" type="text" id="hours">
     <span> hour(s) and </span>
     <input [(ngModel)]="numMinutes" size="2" maxlength="2" type="text" id="mins">
     <span> minutes.</span>
-</div>
+</mat-card>
 
-<div *ngFor="let num of numMembersArray">
+<mat-card class="memberCard" *ngFor="let num of numMembersArray">
     <span>{{num}}. </span>
     <input class="emails" type="email" (input)="emailChange($event,num)" [(ngModel)]="members[num]" placeholder="Email">
-    <span (click)="remove(num)"><img class="remove" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/2000px-Red_X.svg.png"></span>
-</div>
+    <span (click)="remove(num)">
+        <img class="remove" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/2000px-Red_X.svg.png">
+    </span>
+</mat-card>
 
 <div>
-    <button type="button" class="btn btn-primary" (click)="addMember()">Add Member</button>
+    <button type="button" class="btn btn-primary" (click)="addMember()">
+        <img id="plus" src="http://www.clker.com/cliparts/8/0/j/f/r/K/plus-hi.png">
+        Add Member</button>
 </div>
 
 <div>
