@@ -29,7 +29,8 @@ export class ResultsComponent implements OnInit {
       this.groupId = params['groupId'];
       this._dataService.getMembers(this.groupId)
         .subscribe((res) => {
-          this.group = JSON.parse(res["_body"])
+          this.group = JSON.parse(res["_body"]);
+          console.log(this.group);
           this.members = this.group.members;
           this.selDate = this.group.date;
         });
@@ -37,6 +38,9 @@ export class ResultsComponent implements OnInit {
   }
 
   getChangedValue(newDate) {
+    for(let i=1;i<25;i++){
+      document.getElementById("block"+i).style.background = "#FFFFFF";
+    }
     this.selDate = newDate;
     for(let member of this.members){
       for(let conflict of member.conflicts){
@@ -53,6 +57,7 @@ export class ResultsComponent implements OnInit {
             numStart=conflict.fromTime.substring(0,2);
           }
 
+          numStart=""+(Number(numStart)+1);
           if(numStart=="0"){
             numStart="12";
           }
@@ -72,6 +77,7 @@ export class ResultsComponent implements OnInit {
             numEnd=conflict.toTime.substring(0,2);
           }
 
+          numEnd=""+(Number(numEnd)+1);
           if(numEnd=="0"){
             numEnd="12";
           }
