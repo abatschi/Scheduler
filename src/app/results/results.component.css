@@ -4,10 +4,9 @@
 }
 
 #container{
-    margin-top: 60px;
+    margin-top: 20px;
     float:right;
     border: rgb(122, 122, 122) 1px solid;
-    /* padding: 35px; */
     box-shadow: 0px 0px 20px 10px darkgrey;
 }
 
@@ -31,7 +30,6 @@
     text-align: center;
     width: 360px;
     display: inline-block;
-    border-right: gray 1px solid;
 }
 
 #am{
@@ -50,4 +48,34 @@
     display:inline-block;
     height:58px;
     width:30px;
+}
+
+#block24{
+    border-right:none;
+}
+
+#hour23{
+    border-right:none;
+}
+
+#meetingInfo{
+    float: right;
+    margin-right: 190px;
+    margin-top: 30px;
+    
+}
+
+#membersCard{
+    float:left;
+    width: 500px;
+}
+
+#warning{
+    color: red;
+    font-size: 80%;
+    padding-bottom: 10px;
+}
+
+#refreshButton{
+    margin-top: 10px;
 }

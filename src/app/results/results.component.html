@@ -1,13 +1,24 @@
-<div *ngFor="let member of members">
-  <span>
-    {{member.email}}:
-  </span>
-  <span *ngIf="member.conflicts.length>0">
-    DONE!
-  </span>
-  <span *ngIf="member.conflicts.length==0">
-    Waiting...
-  </span>
+<mat-card id="membersCard" *ngIf="!allReported">
+  <div *ngFor="let member of members; let i = index">
+    <span>
+      {{i+1}}. {{member.email}}:
+    </span>
+    <span *ngIf="member.conflicts.length>0">
+      DONE!
+    </span>
+    <span *ngIf="member.conflicts.length==0">
+      Waiting...
+    </span>
+  </div>
+  <button id="refreshButton" class="btn btn-primary" (click)="refresh()">Refresh</button>
+</mat-card>
+
+<div id="meetingInfo" *ngIf="group">
+    <div id="warning" *ngIf="!allReported">
+        Not all members have reported conflicts yet
+      </div>
+  <div id="meetingDate">Must meet by: <b>{{myFormattedDate}}</b></div>
+  <div id="meetingDate">Recommended meeting length: <b>{{group.numHours}} hours</b> and <b>{{group.numMinutes}} minutes</b></div>
 </div>
 
 <mat-calendar id="myCalendar" #calendar [selected]="selDate" (selectedChange)="getChangedValue($event)"></mat-calendar>
@@ -41,32 +52,35 @@
     --><span class="hour">8</span><!--
     --><span class="hour">9</span><!--
     --><span class="hour">10</span><!--
-    --><span class="hour">11</span>
+    --><span id="hour23" class="hour">11</span>
   </div>
   <div id="barBlock">
     <span class="block" id="block1"></span><!--
-    --><span class="block" id="block2"></span><!--
-    --><span class="block" id="block3"></span><!--
-    --><span class="block" id="block4"></span><!--
-    --><span class="block"  id="block5"></span><!--
-    --><span class="block" id="block6"></span><!--
-    --><span class="block" id="block7"></span><!--
-    --><span class="block" id="block8"></span><!--
-    --><span class="block" id="block9"></span><!--
-    --><span class="block" id="block10"></span><!--
-    --><span class="block" id="block11"></span><!--
-    --><span class="block" id="block12"></span><!--
-    --><span class="block" id="block13"></span><!--
-    --><span class="block" id="block14"></span><!--
-    --><span class="block" id="block15"></span><!--
-    --><span class="block" id="block16"></span><!--
-    --><span class="block" id="block17"></span><!--
-    --><span class="block" id="block18"></span><!--
-    --><span class="block" id="block19"></span><!--
-    --><span class="block" id="block20"></span><!--
-    --><span class="block" id="block21"></span><!--
-    --><span class="block" id="block22"></span><!--
-    --><span class="block" id="block23"></span><!--
-    --><span class="block" id="block24"></span>
+    --><span class="block" id="block2" matTooltip=""></span><!--
+    --><span class="block" id="block3" matTooltip=""></span><!--
+    --><span class="block" id="block4" matTooltip=""></span><!--
+    --><span class="block" id="block5" matTooltip=""></span><!--
+    --><span class="block" id="block6" matTooltip=""></span><!--
+    --><span class="block" id="block7" matTooltip=""></span><!--
+    --><span class="block" id="block8" matTooltip=""></span><!--
+    --><span class="block" id="block9" matTooltip=""></span><!--
+    --><span class="block" id="block10" matTooltip=""></span><!--
+    --><span class="block" id="block11" matTooltip=""></span><!--
+    --><span class="block" id="block12" matTooltip=""></span><!--
+    --><span class="block" id="block13" matTooltip=""></span><!--
+    --><span class="block" id="block14" matTooltip=""></span><!--
+    --><span class="block" id="block15" matTooltip=""></span><!--
+    --><span class="block" id="block16" matTooltip=""></span><!--
+    --><span class="block" id="block17" matTooltip=""></span><!--
+    --><span class="block" id="block18" matTooltip=""></span><!--
+    --><span class="block" id="block19" matTooltip=""></span><!--
+    --><span class="block" id="block20" matTooltip=""></span><!--
+    --><span class="block" id="block21" matTooltip=""></span><!--
+    --><span class="block" id="block22" matTooltip=""></span><!--
+    --><span class="block" id="block23" matTooltip=""></span><!--
+    --><span class="block" id="block24" matTooltip=""></span>
   </div>
 </span>
+  
+
+
