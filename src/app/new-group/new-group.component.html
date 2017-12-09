@@ -1,14 +1,22 @@
 <mat-card id="dateAndTime">
     <span>This group must meet before </span>
     <mat-form-field id="dateForm">
-        <input [(ngModel)]="date" matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Choose a date">
+        <input [min]="today" [(ngModel)]="date" matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <span> for </span>
-    <input [(ngModel)]="numHours" size="2" maxlength="2" type="text" id="hours">
+    <mat-form-field>
+        <mat-select [(value)]="numHours">
+            <mat-option *ngFor="let option of hoursArray" value={{option}}>{{option}}</mat-option>
+        </mat-select>
+    </mat-form-field>
     <span> hour(s) and </span>
-    <input [(ngModel)]="numMinutes" size="2" maxlength="2" type="text" id="mins">
+    <mat-form-field>
+        <mat-select [(value)]="numMinutes">
+            <mat-option *ngFor="let option of minutesArray" value={{option}}>{{option}}</mat-option>
+        </mat-select>
+    </mat-form-field>
     <span> minutes.</span>
 </mat-card>
 
@@ -22,8 +30,7 @@
 
 <div>
     <button type="button" class="btn btn-primary" (click)="addMember()">
-        <img id="plus" src="http://www.clker.com/cliparts/8/0/j/f/r/K/plus-hi.png">
-        Add Member</button>
+        <img id="plus" src="http://www.clker.com/cliparts/8/0/j/f/r/K/plus-hi.png"> Add Member</button>
 </div>
 
 <div>

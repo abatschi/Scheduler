@@ -58,9 +58,9 @@ router.post('/newGroup', (req, res) => {
     connection((db) => {
         db.collection('groups').insert(memberObject, function (err, docsInserted) {
             var groupId = docsInserted.insertedIds[0];
+            console.log(docsInserted);
             for (var email of req.body.users) {
                 if (email != 'organizer') {
-                    console.log(conflictsEmail);
                     sendEmail(groupId, email, false);
                 }
             }

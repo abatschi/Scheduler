@@ -2,7 +2,7 @@
     margin: 10px 0;
 }
 
-button{
+.controlButtons{
     margin: 15px;
 }
 
@@ -30,4 +30,20 @@ mat-card{
 .remove{
     cursor: pointer;
     width:10px;
+}
+
+#repeat{
+    margin-left: 10px;
+}
+
+.mat-menu-panel{
+    overflow: none !important;
+}
+
+.mat-form-field {
+    width: 170px;
+}
+
+#removeSpan{
+    padding-top: 15px;
 }

@@ -86,3 +86,13 @@
     font-size: 150%;
     padding-top: 10px;
 }
+
+#checkmarkImage{
+    width: 20px;
+    padding-bottom: 5px;
+}
+
+#waitingGif{
+    width: 31px;
+    padding-top: 6px;
+}

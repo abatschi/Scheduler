@@ -7,13 +7,23 @@ import { DataService } from './data.service';
 import { ConflictsComponent } from './conflicts/conflicts.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NewGroupComponent } from './new-group/new-group.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormsModule } from '@angular/forms';
 import { ResultsComponent } from './results/results.component';
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatIconModule,MatCardModule, MatDatepickerModule,MatNativeDateModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  MatIconModule,
+  MatCardModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatSelectModule,
+  MatButtonModule,
+  MatMenuModule,
+} from '@angular/material';
 
 
 const appRoutes: Routes = [
@@ -30,12 +40,14 @@ const appRoutes: Routes = [
     component: ResultsComponent,
   },
   {
-    path:'',
+    path: '',
     redirectTo: 'newGroup',
     pathMatch: 'full'
   },
-  { path: '**',
-   component: NewGroupComponent }
+  {
+    path: '**',
+    component: NewGroupComponent
+  }
 ];
 
 
@@ -47,6 +59,9 @@ const appRoutes: Routes = [
     ResultsComponent,
   ],
   imports: [
+    MatButtonModule,
+    MatMenuModule,
+    MatSelectModule,
     MatIconModule,
     MatCardModule,
     MatInputModule,

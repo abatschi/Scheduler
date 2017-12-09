@@ -44,3 +44,7 @@ input[type=email] {
     margin: 10px 0px;
     width: 250px;
 }
+
+mat-form-field{
+    width:40px;
+}

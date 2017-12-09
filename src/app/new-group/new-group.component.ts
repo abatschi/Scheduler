@@ -14,14 +14,27 @@ export class NewGroupComponent implements OnInit {
   members=["organizer",""];
 
   date;
-  numHours;
-  numMinutes;
+  numHours="1";
+  numMinutes="0";
+
+  hoursArray=[];
+  minutesArray=[];
+
+  today;
 
   
 
   constructor(private _dataService: DataService, private router: Router) { }
 
   ngOnInit() {
+    this.today = new Date();
+    for(var i=0;i<24;i++){
+      this.hoursArray.push(i);
+    }
+
+    for(var i=0;i<60;i+=15){
+      this.minutesArray.push(i);
+    }
   }
 
   addMember(){

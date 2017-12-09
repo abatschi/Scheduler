@@ -1,26 +1,74 @@
 <mat-card *ngFor="let num of numConflictsArray">
   <span>{{num}}. </span>
-  <mat-form-field>
-    <input [(ngModel)]="conflicts[num-1].date" matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Choose a date">
+  <mat-form-field *ngIf="!conflicts[num-1].repeat">
+    <input [max]="dueDate" [min]="today" [(ngModel)]="conflicts[num-1].date" matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Choose a date">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+
+  <span *ngIf="conflicts[num-1].repeat" id="repeat">
+      <div class="btn-group" data-toggle="buttons">
+        <label (click)="repeatToggle(num, 'Sunday')" class="btn btn-info btn-sm">
+          <input type="checkbox" autocomplete="off">Su
+        </label>
+        <label (click)="repeatToggle(num, 'Monday')" class="btn btn-info btn-sm">
+          <input type="checkbox" autocomplete="off">M
+        </label>
+        <label (click)="repeatToggle(num, 'Tuesday')" class="btn btn-info btn-sm">
+          <input type="checkbox" autocomplete="off">Tu
+        </label>
+        <label (click)="repeatToggle(num, 'Wednesday')" class="btn btn-info btn-sm">
+          <input type="checkbox" autocomplete="off">W
+        </label>
+        <label (click)="repeatToggle(num, 'Thursday')" class="btn btn-info btn-sm">
+          <input type="checkbox" autocomplete="off">Th
+        </label>
+        <label (click)="repeatToggle(num, 'Friday')" class="btn btn-info btn-sm">
+          <input type="checkbox" autocomplete="off">F
+        </label>
+        <label (click)="repeatToggle(num, 'Saturday')" class="btn btn-info btn-sm">
+          <input type="checkbox" autocomplete="off">Sa
+        </label>
+      </div>
+    </span>
   <!-- <input class="date" type="date" [(ngModel)]="conflicts[num-1].date"> -->
   <span class="times">
     <span> From: </span>
-    <input class="fromTime" type="time" value="09:00" [(ngModel)]="conflicts[num-1].fromTime">
+    <mat-form-field>
+      <mat-select placeholder="Choose a time" [(value)]="conflicts[num-1].fromTime">
+        <mat-option *ngFor="let option of timesArray" value={{option.value}}>{{option.view}}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <span> To: </span>
-    <input class="toTime" type="time" value="10:00" [(ngModel)]="conflicts[num-1].toTime">
+    <mat-form-field>
+      <mat-select placeholder="Choose a time" [(value)]="conflicts[num-1].toTime">
+        <mat-option *ngFor="let option of timesArray" value={{option.value}}>{{option.view}}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </span>
-  <span (click)="remove(num)"><img class="remove" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/2000px-Red_X.svg.png"></span>  
+  
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <span id="removeSpan" (click)="remove(num)">
+      <img class="remove" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/2000px-Red_X.svg.png">
+    </span>
+  
+    <div>
+        <mat-menu #menu="matMenu">
+          <button *ngIf="!conflicts[num-1].repeat" (click)="conflicts[num-1].repeat = true" mat-menu-item>Turn On Repeat</button>
+          <button *ngIf="conflicts[num-1].repeat" (click)="conflicts[num-1].repeat = false" mat-menu-item>Turn Off Repeat</button>
+        </mat-menu>
+      </div>
 </mat-card>
 
+
 <div>
-  <button type="button" class="btn btn-primary" (click)="addConflict()">
-      <img id="plus" src="http://www.clker.com/cliparts/8/0/j/f/r/K/plus-hi.png">
-      Add Conflict</button>
+  <button type="button" class="btn btn-primary controlButtons" (click)="addConflict()">
+    <img id="plus" src="http://www.clker.com/cliparts/8/0/j/f/r/K/plus-hi.png"> Add Conflict</button>
 </div>
 
 <div>
-  <button type="button" class="btn btn-success" (click)="submit()">Submit All Conflicts</button>
+  <button type="button" class="btn btn-success controlButtons" (click)="submit()">Submit All Conflicts</button>
 </div>

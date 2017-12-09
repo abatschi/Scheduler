@@ -4,10 +4,10 @@
       {{i+1}}. {{member.email}}:
     </span>
     <span *ngIf="member.conflicts.length>0">
-      DONE!
+      <img id="checkmarkImage" src="../../assets/images/checkmark.png">
     </span>
     <span *ngIf="member.conflicts.length==0">
-      Waiting...
+      <b>Waiting</b><img id="waitingGif" src="../../assets/images/waiting.gif">
     </span>
   </div>
   <button id="refreshButton" class="btn btn-primary" (click)="refresh()">Refresh</button>
@@ -18,7 +18,7 @@
         Not all members have reported conflicts yet
       </div>
   <div id="meetingDate">Must meet by: <b>{{myFormattedDate}}</b></div>
-  <div id="meetingDate">Recommended meeting length: <b>{{myHours}} hours</b> and <b>{{myMinutes}} minutes</b></div>
+  <div id="meetingDate">Estimated meeting length: <b>{{myHours}} hours</b> and <b>{{myMinutes}} minutes</b></div>
   <div id="selDateText"><b>{{myFormattedSelDate}}</b></div>
 </div>
 
