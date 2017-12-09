@@ -1,10 +1,11 @@
+
 #myCalendar{
     float:left;
     width:200px;
 }
 
 #container{
-    margin-top: 20px;
+    margin-top: 5px;
     float:right;
     border: rgb(122, 122, 122) 1px solid;
     box-shadow: 0px 0px 20px 10px darkgrey;
@@ -78,4 +79,10 @@
 
 #refreshButton{
     margin-top: 10px;
+}
+
+#selDateText{
+    text-align: center;
+    font-size: 150%;
+    padding-top: 10px;
 }

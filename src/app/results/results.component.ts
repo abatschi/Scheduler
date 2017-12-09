@@ -27,6 +27,11 @@ export class ResultsComponent implements OnInit {
   numReported=0;
   allReported=false;
 
+  myFormattedSelDate;
+
+  myMinutes;
+  myHours;
+
   constructor(private _dataService: DataService, private route: ActivatedRoute, ) {
 
   }
@@ -38,11 +43,25 @@ export class ResultsComponent implements OnInit {
         .subscribe((res) => {
           this.group = JSON.parse(res["_body"]);
 
+          this.myMinutes=this.group.numMinutes;
+          if(!this.myMinutes){
+            this.myMinutes="0";
+          }
+
+          this.myHours=this.group.numHours;
+          if(!this.myHours){
+            this.myHours="0";
+          }
+
           let tempDate = new Date(this.group.date);
-          this.myFormattedDate = "" + this.dayNames[tempDate.getDay()] + ", "+ this.monthNames[tempDate.getMonth()] + " "+ tempDate.getDate()
+          this.myFormattedDate = "" + this.dayNames[tempDate.getDay()] + ", "+ this.monthNames[tempDate.getMonth()] + " "+ tempDate.getDate();
+          
           this.members = this.group.members;
           this.selDate = this.group.date;
-
+          var selDateDate = new Date(this.selDate);
+          this.myFormattedSelDate = "" + this.dayNames[selDateDate.getDay()] + ", "+ this.monthNames[selDateDate.getMonth()] + " "+ selDateDate.getDate();
+          this.getChangedValue(selDateDate);
+          
           for (let member of this.members) {
             if(member.conflicts.length>0){
               this.numReported++;
@@ -56,12 +75,14 @@ export class ResultsComponent implements OnInit {
     });
   }
 
-  getChangedValue(newDate) {
+  getChangedValue(newDate) { 
     let myConflicts = [];
     for (let i = 1; i < 25; i++) {
       document.getElementById("block" + i).style.background = "rgb(255, 255, 255)";
     }
     this.selDate = newDate;
+    this.myFormattedSelDate = "" + this.dayNames[this.selDate.getDay()] + ", "+ this.monthNames[this.selDate.getMonth()] + " "+ this.selDate.getDate();
+    
     for (let member of this.members) {
       for (let conflict of member.conflicts) {
         let myConflictDate = new Date(conflict.date).toDateString();
@@ -149,8 +170,8 @@ export class ResultsComponent implements OnInit {
       }
     }
 
-    let myMinutes = this.group.numMinutes
-    if (myMinutes == '0') {
+    let myMinutes = this.group.numMinutes;
+    if (myMinutes == '0' || myMinutes=='') {
       myMinutes = '00';
     }
     let length = Number(this.group.numHours + myMinutes);

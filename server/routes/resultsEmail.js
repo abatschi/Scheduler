@@ -261,7 +261,7 @@ var html = `<!doctype html>
                     <tr>
                       <td>
                         <p>Hi there,</p>
-                        <p>You have been added as a member for an upcoming group meeting. Join other group members by adding in your personal conflicts to figure out the best time to have your meeting.</p>
+                        <p>Everyone has reported and your results for your group meeting can be viewed!</p>
                         <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
                             <tr>
@@ -269,7 +269,7 @@ var html = `<!doctype html>
                                 <table border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a href="conflictURL" target="_blank">Add personal conflicts</a> </td>
+                                      <td> <a href="resultsURL" target="_blank">View group results</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>

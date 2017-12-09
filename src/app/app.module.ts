@@ -15,6 +15,7 @@ import { ResultsComponent } from './results/results.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatIconModule,MatCardModule, MatDatepickerModule,MatNativeDateModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 
+
 const appRoutes: Routes = [
   {
     path: 'conflicts/:groupId/:email',

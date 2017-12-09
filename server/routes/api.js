@@ -1,4 +1,5 @@
 var conflictsEmail = require('./conflictsEmail.js');
+var resultsEmail = require('./resultsEmail.js');
 
 const express = require('express');
 const router = express.Router();
@@ -60,7 +61,7 @@ router.post('/newGroup', (req, res) => {
             for (var email of req.body.users) {
                 if (email != 'organizer') {
                     console.log(conflictsEmail);
-                    sendEmail(groupId, email,false);
+                    sendEmail(groupId, email, false);
                 }
             }
             res.send(groupId);
@@ -87,10 +88,9 @@ router.post('/newConflicts', (req, res) => {
                             }
                         }
                         if (numberOfMembersWithConflicts == group.members.length) {
-                            console.log("ALL HAVE RECORDED!!!!");
-                            for (var email of req.body.users) {
-                                if (email != 'organizer') {
-                                    sendEmail(groupId, email,true);
+                            for (let member of group.members) {
+                                if (member.email != 'organizer') {
+                                    sendEmail(group._id , member.email , true);
                                 }
                             }
                             //do calculations and send email here
@@ -123,54 +123,63 @@ router.post('/results', (req, res) => {
 
 function sendEmail(groupId, email, doneEmail) {
 
-        // Generate test SMTP service account from ethereal.email
-        // Only needed if you don't have a real mail account for testing
-        nodemailer.createTestAccount((err, account) => {
-            var smtpConfig = {
-                service: 'Gmail',
-                auth: {
-                    user: 'groupmeetingscheduler@gmail.com',
-                    pass: 'Scheduler'
-                }
-            };
-            var transporter = nodemailer.createTransport(smtpConfig);
-
-            var newGroupLink = 'http://localhost:3000';
-            if(doneEmail){
-                //myHtml= "<div>http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/results/" + groupId + "</div>" // html body
-                var myLink= "http://localhost:3000/results/" + groupId // html body
+    // Generate test SMTP service account from ethereal.email
+    // Only needed if you don't have a real mail account for testing
+    nodemailer.createTestAccount((err, account) => {
+        var smtpConfig = {
+            service: 'Gmail',
+            auth: {
+                user: 'groupmeetingscheduler@gmail.com',
+                pass: 'Scheduler'
             }
-            else{
-                var myHtml= "<div>http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/conflicts/" + groupId + "/" + email + "</div>" // html body
-                //var myLink= "http://localhost:3000/conflicts/" + groupId + "/" + email; // html body
-                //conflictsEmail.replace("conflictURL",myLink);
+        };
+        var transporter = nodemailer.createTransport(smtpConfig);
+
+        var newGroupLink = 'http://localhost:3000';
+        // var newGroupLink = 'http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/'
+
+        var myHtml = "";
+        if (doneEmail) {
+            //var myResultsLink = "http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/results/" + groupId// html body
+            var myResultsLink = "http://localhost:3000/results/" + groupId // html body
+
+            resultsEmail = resultsEmail.replace("resultsURL",myResultsLink);
+            myHtml=resultsEmail;
+        }
+        else {
+            // var myConflictsLink= "http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/conflicts/" + groupId + "/" + email // html body
+            var myConflictsLink = ("http://localhost:3000/conflicts/" + groupId + "/" + email); // html body
+
+            conflictsEmail = conflictsEmail.replace("conflictURL", myConflictsLink);
+            myHtml = conflictsEmail;
+        }
+        myHtml = myHtml.replace("newGroupURL", newGroupLink);
+
+        // setup email data with unicode symbols
+        let mailOptions = {
+            from: '"Group Scheduler" <groupmeetingscheduler@gmail.com>', // sender address
+            to: email, // list of receivers
+            subject: 'Add Conflicts', // Subject line
+            text: 'Add conflicts', // plain text body
+            // html: "<div>http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/conflicts/" + groupId + "/" + email + "</div>" // html body
+            html: myHtml
+        };
+
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
             }
-            //conflictsEmail.replace("newGroupURL", newGroupLink);
-            //console.log(conflictsEmail);
-            // setup email data with unicode symbols
-            let mailOptions = {
-                from: '"Group Scheduler" <groupmeetingscheduler@gmail.com>', // sender address
-                to: email, // list of receivers
-                subject: 'Add Conflicts', // Subject line
-                text: 'Add conflicts', // plain text body
-                // html: "<div>http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/conflicts/" + groupId + "/" + email + "</div>" // html body
-                html: myHtml
-            };
+            console.log('Message sent: %s', info.messageId);
+            // Preview only available when sending through an Ethereal account
+            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
-            // send mail with defined transport object
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    return console.log(error);
-                }
-                console.log('Message sent: %s', info.messageId);
-                // Preview only available when sending through an Ethereal account
-                console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-
-                // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@blurdybloop.com>
-                // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-            });
+            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@blurdybloop.com>
+            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
         });
+    });
 
 }
+
 
 module.exports = router;

@@ -18,7 +18,8 @@
         Not all members have reported conflicts yet
       </div>
   <div id="meetingDate">Must meet by: <b>{{myFormattedDate}}</b></div>
-  <div id="meetingDate">Recommended meeting length: <b>{{group.numHours}} hours</b> and <b>{{group.numMinutes}} minutes</b></div>
+  <div id="meetingDate">Recommended meeting length: <b>{{myHours}} hours</b> and <b>{{myMinutes}} minutes</b></div>
+  <div id="selDateText"><b>{{myFormattedSelDate}}</b></div>
 </div>
 
 <mat-calendar id="myCalendar" #calendar [selected]="selDate" (selectedChange)="getChangedValue($event)"></mat-calendar>
