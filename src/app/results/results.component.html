@@ -22,7 +22,7 @@
   <div id="selDateText"><b>{{myFormattedSelDate}}</b></div>
 </div>
 
-<mat-calendar id="myCalendar" #calendar [selected]="selDate" (selectedChange)="getChangedValue($event)"></mat-calendar>
+<mat-calendar [minDate]="today" [maxDate]="dueDate" id="myCalendar" #calendar [selected]="selDate" (selectedChange)="getChangedValue($event)"></mat-calendar>
 
 <span id="container">
   <div id="amOrPm">

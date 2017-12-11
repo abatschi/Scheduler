@@ -17,7 +17,7 @@ export class ConflictsComponent implements OnInit {
 
   numConflicts = 1;
   numConflictsArray = [1];
-  conflicts = [{ date: "", fromTime: "9:00", toTime: "10:00", repeat:false }];
+  conflicts = [{ date: "", fromTime: "09:00", toTime: "10:00", repeat: false }];
 
   repeatOn = false;
 
@@ -30,30 +30,53 @@ export class ConflictsComponent implements OnInit {
   ngOnInit() {
     this.today = new Date();
     for (let i = 0; i < 24; i++) {
-      var tempi = i;
-      if (tempi == 0) {
-        tempi = 12;
-      }
-      if (tempi > 12) {
-        tempi -= 12;
-        this.timesArray.push({ value: i + ":00", view: tempi + ":00 PM" });
-        this.timesArray.push({ value: i + ":15", view: tempi + ":15 PM" });
-        this.timesArray.push({ value: i + ":30", view: tempi + ":30 PM" });
-        this.timesArray.push({ value: i + ":45", view: tempi + ":45 PM" });
+      var tempi = "" + i;
+      if (Number(tempi) >= 12) {
+        var view = tempi;
+        if(Number(tempi)>12){
+          tempi = "" + (Number(tempi) - 12);
+        }
+        
+
+        this.timesArray.push({ value: view + ":00", view: tempi + ":00 PM" });
+        this.timesArray.push({ value: view + ":15", view: tempi + ":15 PM" });
+        this.timesArray.push({ value: view + ":30", view: tempi + ":30 PM" });
+        this.timesArray.push({ value: view + ":45", view: tempi + ":45 PM" });
       }
       else {
-        this.timesArray.push({ value: tempi + ":00", view: tempi + ":00 AM" });
-        this.timesArray.push({ value: tempi + ":15", view: tempi + ":15 AM" });
-        this.timesArray.push({ value: tempi + ":30", view: tempi + ":30 AM" });
-        this.timesArray.push({ value: tempi + ":45", view: tempi + ":45 AM" });
+        var view = tempi;
+        if (Number(view) < 10) {
+          if (tempi == "0") {
+            tempi = "12";
+            view = "0";
+          }
+          view = "0" + view;
+        }
+        this.timesArray.push({ value: view + ":00", view: tempi + ":00 AM" });
+        this.timesArray.push({ value: view + ":15", view: tempi + ":15 AM" });
+        this.timesArray.push({ value: view + ":30", view: tempi + ":30 AM" });
+        this.timesArray.push({ value: view + ":45", view: tempi + ":45 AM" });
       }
     }
+    this.timesArray.push({ value: "24:00", view: "12:00 AM" })
     this.route.params.subscribe(params => {
       this.groupId = params['groupId'];
       this.email = params['email'];
       this._dataService.getMembers(this.groupId)
         .subscribe((res) => {
           var group = JSON.parse(res["_body"]);
+          for (let member of group.members) {
+            if (member.email == this.email) {
+              if (member.conflicts.length > 0) {
+                this.conflicts = member.conflicts;
+                this.numConflicts = member.conflicts.length;
+                for(let i=0; i<this.numConflicts; i++){
+                  this.numConflictsArray[i]=i+1;
+                }
+              }
+            }
+          }
+          console.log(group);
           this.dueDate = new Date(group.date);
         });
     });
@@ -62,7 +85,7 @@ export class ConflictsComponent implements OnInit {
   addConflict() {
     this.numConflicts++;
     this.numConflictsArray.push(this.numConflicts);
-    this.conflicts.push({ date: "", fromTime: "9:00", toTime: "10:00", repeat:false });
+    this.conflicts.push({ date: "", fromTime: "09:00", toTime: "10:00", repeat: false });
   }
 
   // dateChange(event,num){
@@ -82,22 +105,21 @@ export class ConflictsComponent implements OnInit {
     for (let conflict of this.conflicts) {
       if (conflict.repeat && conflict.date.includes("day")) {
         var tempDate = new Date();
-        var i=1;
-        var dayAfterDueDate = new Date(this.dueDate.getTime() + 24  * 60 * 60 * 1000);
-        while(!this.dateEquals(tempDate,dayAfterDueDate)){
-          if(conflict.date.includes(this.dayNames[tempDate.getDay()])){
-            this.conflicts.push({ date: tempDate.toDateString(), fromTime: conflict.fromTime, toTime: conflict.toTime, repeat:false });
+        var i = 1;
+        var dayAfterDueDate = new Date(this.dueDate.getTime() + 24 * 60 * 60 * 1000);
+        while (!this.dateEquals(tempDate, dayAfterDueDate)) {
+          if (conflict.date.includes(this.dayNames[tempDate.getDay()])) {
+            this.conflicts.push({ date: tempDate.toISOString(), fromTime: conflict.fromTime, toTime: conflict.toTime, repeat: false });
           }
           tempDate = new Date(new Date().getTime() + 24 * i * 60 * 60 * 1000);
           i++;
         }
         let index = this.conflicts.indexOf(conflict);
-        this.conflicts.splice(index,1);
+        this.conflicts.splice(index, 1);
       }
     }
     this._dataService.newConflicts(this.groupId, this.email, this.conflicts)
       .subscribe((res) => {
-        console.log(res);
         this.router.navigate(['/results', this.groupId]);
       });
 
@@ -115,7 +137,6 @@ export class ConflictsComponent implements OnInit {
 
   repeatToggle(num, day) {
     let index = this.conflicts[num - 1].date.indexOf(day);
-    console.log(index);
     if (index != -1) {
       this.conflicts[num - 1].date =
         (this.conflicts[num - 1].date.substring(0, index) +
@@ -124,7 +145,6 @@ export class ConflictsComponent implements OnInit {
     else {
       this.conflicts[num - 1].date += day;
     }
-    console.log(this.conflicts);
   }
 
   dateEquals(date1, date2) {

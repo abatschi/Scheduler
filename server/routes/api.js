@@ -61,6 +61,7 @@ router.post('/newGroup', (req, res) => {
             console.log(docsInserted);
             for (var email of req.body.users) {
                 if (email != 'organizer') {
+                    console.log(groupId);
                     sendEmail(groupId, email, false);
                 }
             }
@@ -90,7 +91,7 @@ router.post('/newConflicts', (req, res) => {
                         if (numberOfMembersWithConflicts == group.members.length) {
                             for (let member of group.members) {
                                 if (member.email != 'organizer') {
-                                    sendEmail(group._id , member.email , true);
+                                    sendEmail(group._id, member.email, true);
                                 }
                             }
                             //do calculations and send email here
@@ -139,19 +140,20 @@ function sendEmail(groupId, email, doneEmail) {
         // var newGroupLink = 'http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/'
 
         var myHtml = "";
+        var mySSubject = "";
         if (doneEmail) {
             //var myResultsLink = "http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/results/" + groupId// html body
             var myResultsLink = "http://localhost:3000/results/" + groupId // html body
 
-            resultsEmail = resultsEmail.replace("resultsURL",myResultsLink);
-            myHtml=resultsEmail;
+            myHtml = resultsEmail.replace("resultsURL", myResultsLink);
+            mySubject = "View Results";
         }
         else {
             // var myConflictsLink= "http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/conflicts/" + groupId + "/" + email // html body
             var myConflictsLink = ("http://localhost:3000/conflicts/" + groupId + "/" + email); // html body
-
-            conflictsEmail = conflictsEmail.replace("conflictURL", myConflictsLink);
-            myHtml = conflictsEmail;
+            console.log(groupId);
+            myHtml = conflictsEmail.replace("conflictURL", myConflictsLink);
+            mySubject = "Add Conflicts";
         }
         myHtml = myHtml.replace("newGroupURL", newGroupLink);
 
@@ -159,7 +161,7 @@ function sendEmail(groupId, email, doneEmail) {
         let mailOptions = {
             from: '"Group Scheduler" <groupmeetingscheduler@gmail.com>', // sender address
             to: email, // list of receivers
-            subject: 'Add Conflicts', // Subject line
+            subject: mySubject, // Subject line
             text: 'Add conflicts', // plain text body
             // html: "<div>http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/conflicts/" + groupId + "/" + email + "</div>" // html body
             html: myHtml

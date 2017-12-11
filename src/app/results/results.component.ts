@@ -32,11 +32,18 @@ export class ResultsComponent implements OnInit {
   myMinutes;
   myHours;
 
+  today;
+  dueDate;
+
+  myEmail="";
+
   constructor(private _dataService: DataService, private route: ActivatedRoute, ) {
 
   }
 
   ngOnInit() {
+    this.today = new Date();
+
     this.route.params.subscribe(params => {
       this.groupId = params['groupId'];
       this._dataService.getMembers(this.groupId)
@@ -59,10 +66,12 @@ export class ResultsComponent implements OnInit {
           this.members = this.group.members;
           this.selDate = this.group.date;
           var selDateDate = new Date(this.selDate);
+          this.dueDate = new Date(this.group.date);
           this.myFormattedSelDate = "" + this.dayNames[selDateDate.getDay()] + ", "+ this.monthNames[selDateDate.getMonth()] + " "+ selDateDate.getDate();
           this.getChangedValue(selDateDate);
           
           for (let member of this.members) {
+            if(member.email)
             if(member.conflicts.length>0){
               this.numReported++;
             }
@@ -79,6 +88,7 @@ export class ResultsComponent implements OnInit {
     let myConflicts = [];
     for (let i = 1; i < 25; i++) {
       document.getElementById("block" + i).style.background = "rgb(255, 255, 255)";
+      document.getElementById("block" + i).title="";
     }
     this.selDate = newDate;
     this.myFormattedSelDate = "" + this.dayNames[this.selDate.getDay()] + ", "+ this.monthNames[this.selDate.getMonth()] + " "+ this.selDate.getDate();
@@ -88,8 +98,6 @@ export class ResultsComponent implements OnInit {
         let myConflictDate = new Date(conflict.date).toDateString();
         let newDateString = newDate.toDateString();
         if (myConflictDate == newDateString) {
-          console.log("from " + conflict.fromTime);
-          console.log("to " + conflict.toTime);
 
           let conflict1=(conflict.fromTime.substring(0, 2) + conflict.fromTime.substring(3, 5));
           if(myConflicts.indexOf(conflict1)==-1){
@@ -174,24 +182,25 @@ export class ResultsComponent implements OnInit {
     if (myMinutes == '0' || myMinutes=='') {
       myMinutes = '00';
     }
+    myConflicts = myConflicts.splice(1,myConflicts.length-2);
     let length = Number(this.group.numHours + myMinutes);
-    for (let i = 1; i < myConflicts.length - 1; i += 2) {
+    // for (let i = 1; i < myConflicts.length - 1; i += 2) {
+      for (let i = 0; i < myConflicts.length-1; i += 2) {
+        
       let diff = Number(myConflicts[i + 1]) - Number(myConflicts[i]);
       if (myConflicts[i + 1].substring(2, 4) < myConflicts[i].substring(2, 4)) {
         diff -= 40;
       }
-      console.log(diff);
-      console.log(length);
       if (diff > length) {
-        console.log(myConflicts);
         myConflicts.splice(i, 2);
-        console.log(myConflicts);
       }
 
     }
 
-    
-    for (let i = 1; i < myConflicts.length - 1; i += 2) {
+    console.log(myConflicts);
+    // for (let i = 1; i < myConflicts.length - 1; i += 2) {
+      for (let i = 0; i < myConflicts.length-1; i += 2) {
+        
       let numStart = '0';
       if (myConflicts[i][0] == "0") {
         numStart = myConflicts[i].substring(1, 2);
@@ -210,7 +219,7 @@ export class ResultsComponent implements OnInit {
 
       numStart = "" + (Number(numStart) + 1);
       numEnd = "" + (Number(numEnd) + 1);
-
+      
       let newStartStyle = document.getElementById("block" + numStart).style.background.replace('rgb(255, 255, 255)', 'rgb(100, 100, 100)');
       let newEndStyle = document.getElementById("block" + numEnd).style.background.replace('rgb(255, 255, 255)', 'rgb(100, 100, 100)');
       document.getElementById("block" + numStart).style.background = newStartStyle;
@@ -230,7 +239,7 @@ export class ResultsComponent implements OnInit {
   addTitle(num, email) {
     let myTitle = document.getElementById("block" + num).title;
     if(!myTitle.includes(email)){
-      if (myTitle) {
+      if (myTitle && myTitle!="") {
         document.getElementById("block" + num).title += (", " + email);
       }
       else {
@@ -241,7 +250,6 @@ export class ResultsComponent implements OnInit {
   }
 
   refresh(){
-    //this.route
     window.location.reload();
   }
 
