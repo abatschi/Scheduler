@@ -22,8 +22,11 @@ export class ConflictsComponent implements OnInit {
   repeatOn = false;
 
   dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
   dueDate;
   today;
+
+  errorIndexs=[];
 
   constructor(private route: ActivatedRoute, private _dataService: DataService, private router: Router) { }
 
@@ -33,10 +36,10 @@ export class ConflictsComponent implements OnInit {
       var tempi = "" + i;
       if (Number(tempi) >= 12) {
         var view = tempi;
-        if(Number(tempi)>12){
+        if (Number(tempi) > 12) {
           tempi = "" + (Number(tempi) - 12);
         }
-        
+
 
         this.timesArray.push({ value: view + ":00", view: tempi + ":00 PM" });
         this.timesArray.push({ value: view + ":15", view: tempi + ":15 PM" });
@@ -70,8 +73,8 @@ export class ConflictsComponent implements OnInit {
               if (member.conflicts.length > 0) {
                 this.conflicts = member.conflicts;
                 this.numConflicts = member.conflicts.length;
-                for(let i=0; i<this.numConflicts; i++){
-                  this.numConflictsArray[i]=i+1;
+                for (let i = 0; i < this.numConflicts; i++) {
+                  this.numConflictsArray[i] = i + 1;
                 }
               }
             }
@@ -102,6 +105,16 @@ export class ConflictsComponent implements OnInit {
   // }
 
   submit() {
+    this.errorIndexs=[];
+    for(let i=0; i<this.conflicts.length; i++){
+      console.log(this.conflicts[i].date);
+      console.log(this.timesArray.indexOf(this.conflicts[i].fromTime));
+      console.log(this.timesArray.indexOf(this.conflicts[i].toTime));
+      if(this.conflicts[i].date=="" || !this.timeIsLess(this.conflicts[i].fromTime, this.conflicts[i].toTime)){
+        this.errorIndexs.push(i);
+      }
+    }
+    if(this.errorIndexs.length==0){
     for (let conflict of this.conflicts) {
       if (conflict.repeat && conflict.date.includes("day")) {
         var tempDate = new Date();
@@ -122,6 +135,7 @@ export class ConflictsComponent implements OnInit {
       .subscribe((res) => {
         this.router.navigate(['/results', this.groupId]);
       });
+    }
 
 
   }
@@ -151,6 +165,27 @@ export class ConflictsComponent implements OnInit {
     return date1.getYear() == date2.getYear() &&
       date1.getMonth() == date2.getMonth() &&
       date1.getDate() == date2.getDate();
+  }
+
+  formatDate(date) {
+    let myDate = new Date(date);
+    return "" + this.dayNames[myDate.getDay()] + ", " + this.monthNames[myDate.getMonth()] + " " + myDate.getDate() + " " + myDate.getFullYear();
+  }
+
+  timeIsLess(time1,time2){
+    let fromIndex=-1;
+    for(let i=0; i< this.timesArray.length; i++){
+      if(this.timesArray[i].value==time1){
+        fromIndex=i;
+      }
+    }
+    let toIndex=-1;
+    for(let i=0; i< this.timesArray.length; i++){
+      if(this.timesArray[i].value==time2){
+        toIndex=i;
+      }
+    }
+    return fromIndex<toIndex;
   }
 
 }

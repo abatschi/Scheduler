@@ -36,3 +36,15 @@
 <div>
     <button type="button" class="btn btn-success" (click)="email()">Invite all members</button>
 </div>
+
+<div id="errorContainer" *ngIf="hasErrors">
+    <div class="error" *ngIf="noDate">
+        Please include a date.
+    </div>
+    <div class="error" *ngIf="noTime">
+        Please include a estimated time length.
+    </div>
+    <div class="error" *ngIf="noGroup">
+        Please include at least one other group member.
+    </div>
+</div>

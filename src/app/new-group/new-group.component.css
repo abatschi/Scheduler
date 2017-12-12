@@ -45,6 +45,16 @@ input[type=email] {
     width: 250px;
 }
 
+.error{
+    color:red;
+    font-size: 80%;
+    padding-left: 15px;
+}
+
+#errorContainer{
+    padding-bottom: 20px;
+}
+
 mat-form-field{
     width:40px;
 }

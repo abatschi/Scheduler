@@ -9,65 +9,84 @@ import { Router } from '@angular/router';
   styleUrls: ['./new-group.component.css']
 })
 export class NewGroupComponent implements OnInit {
-  numMembers=1;
-  numMembersArray=[1];
-  members=["organizer",""];
+  numMembers = 1;
+  numMembersArray = [1];
+  members = ["organizer", ""];
 
   date;
-  numHours="1";
-  numMinutes="0";
+  numHours = "1";
+  numMinutes = "0";
 
-  hoursArray=[];
-  minutesArray=[];
+  hoursArray = [];
+  minutesArray = [];
 
   today;
 
-  
+  hasErrors = false;
+
+  noTime = false;
+  noDate = false;
+  noGroup = false;
 
   constructor(private _dataService: DataService, private router: Router) { }
 
   ngOnInit() {
     this.today = new Date();
-    for(var i=0;i<24;i++){
+    for (var i = 0; i < 24; i++) {
       this.hoursArray.push(i);
     }
 
-    for(var i=0;i<60;i+=15){
+    for (var i = 0; i < 60; i += 15) {
       this.minutesArray.push(i);
     }
   }
 
-  addMember(){
+  addMember() {
     this.numMembers++;
     this.numMembersArray.push(this.numMembers);
     this.members.push("");
   }
 
-  remove(num){
+  remove(num) {
     this.numMembers--;
-    this.members.splice(num,1);
-    this.numMembersArray.splice(num-1,1);
-    for(let i=num-1; i<this.numMembersArray.length; i++){
-      this.numMembersArray[i]=this.numMembersArray[i]-1;
+    this.members.splice(num, 1);
+    this.numMembersArray.splice(num - 1, 1);
+    for (let i = num - 1; i < this.numMembersArray.length; i++) {
+      this.numMembersArray[i] = this.numMembersArray[i] - 1;
     }
   }
 
-  emailChange(event,num){
-    this.members[num]=event.target.value;
+  emailChange(event, num) {
+    this.members[num] = event.target.value;
   }
 
-  email(){
-    this._dataService.newGroup(this.members,this.date,this.numHours,this.numMinutes)
-      .subscribe((res) => {
-        let groupId =  res['_body'];
-        groupId = groupId.substring(1,groupId.length-1);
-        //console.log(res['_body']);
-        this.router.navigate(['/conflicts', groupId, 'organizer']);
-      });
+  email() {
+    this.hasErrors=false;
+    if (!this.date) {
+      this.noDate = true;
+      this.hasErrors = true;
+    }
+    if (this.numHours == "0" && this.numMinutes == "0") {
+      this.noTime = true;
+      this.hasErrors = true;
+    }
+    if (this.members[1] == "") {
+      this.noGroup = true;
+      this.hasErrors = true;
+    }
+    if (!this.hasErrors) {
+      this._dataService.newGroup(this.members, this.date, this.numHours, this.numMinutes)
+        .subscribe((res) => {
+          let groupId = res['_body'];
+          groupId = groupId.substring(1, groupId.length - 1);
+          //console.log(res['_body']);
+          this.router.navigate(['/conflicts', groupId, 'organizer']);
+        });
+    }
 
-     
+
   }
 
-  
+
 
 }

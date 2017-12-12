@@ -1,3 +1,7 @@
+<div id="title">
+  Please input all conflicts from <b>{{formatDate(today)}}</b> through <b>{{formatDate(dueDate)}}</b>.
+</div>
+
 <mat-card *ngFor="let num of numConflictsArray">
   <span>{{num}}. </span>
   <mat-form-field *ngIf="!conflicts[num-1].repeat">
@@ -71,4 +75,10 @@
 
 <div>
   <button type="button" class="btn btn-success controlButtons" (click)="submit()">Submit All Conflicts</button>
+</div>
+
+<div id="errorContainer">
+  <div *ngFor="let index of errorIndexs">
+    <div class="error" >Conflict {{index+1}} has a problem</div>
+  </div>
 </div>
