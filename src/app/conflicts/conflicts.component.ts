@@ -17,7 +17,7 @@ export class ConflictsComponent implements OnInit {
 
   numConflicts = 1;
   numConflictsArray = [1];
-  conflicts = [{ date: "", fromTime: "09:00", toTime: "10:00", repeat: false }];
+  conflicts = [];
 
   repeatOn = false;
 
@@ -31,6 +31,9 @@ export class ConflictsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private _dataService: DataService, private router: Router) { }
 
   ngOnInit() {
+    this.conflicts=[];
+    this.conflicts.push({ date: "", fromTime: "09:00", toTime: "10:00", repeat: false });
+
     this.today = new Date();
     for (let i = 0; i < 24; i++) {
       var tempi = "" + i;
@@ -107,9 +110,6 @@ export class ConflictsComponent implements OnInit {
   submit() {
     this.errorIndexs=[];
     for(let i=0; i<this.conflicts.length; i++){
-      console.log(this.conflicts[i].date);
-      console.log(this.timesArray.indexOf(this.conflicts[i].fromTime));
-      console.log(this.timesArray.indexOf(this.conflicts[i].toTime));
       if(this.conflicts[i].date=="" || !this.timeIsLess(this.conflicts[i].fromTime, this.conflicts[i].toTime)){
         this.errorIndexs.push(i);
       }
@@ -186,6 +186,14 @@ export class ConflictsComponent implements OnInit {
       }
     }
     return fromIndex<toIndex;
+  }
+
+  submitNone(){
+    this.conflicts[0].date="No Conflicts";
+    this._dataService.newConflicts(this.groupId, this.email, this.conflicts)
+    .subscribe((res) => {
+      this.router.navigate(['/results', this.groupId]);
+    });
   }
 
 }

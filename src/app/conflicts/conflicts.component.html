@@ -1,5 +1,8 @@
 <div id="title">
   Please input all conflicts from <b>{{formatDate(today)}}</b> through <b>{{formatDate(dueDate)}}</b>.
+  <span id="noConflictsContainer">
+      <button type="button" class="btn btn-success controlButtons" (click)="submitNone()">I have no conflicts</button>
+  </span>
 </div>
 
 <mat-card *ngFor="let num of numConflictsArray">
@@ -55,7 +58,7 @@
     <mat-icon>more_vert</mat-icon>
   </button>
 
-  <span id="removeSpan" (click)="remove(num)">
+  <span id="removeSpan" *ngIf="num!=1" (click)="remove(num)">
       <img class="remove" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/2000px-Red_X.svg.png">
     </span>
   
@@ -79,6 +82,6 @@
 
 <div id="errorContainer">
   <div *ngFor="let index of errorIndexs">
-    <div class="error" >Conflict {{index+1}} has a problem</div>
+    <div class="error" >Conflict {{index+1}} has a problem. Make sure it includes a date and the <i>from</i> time is before the <i>to</i> time.</div>
   </div>
 </div>

@@ -19,7 +19,11 @@
       </div>
   <div id="meetingDate">Must meet by: <b>{{myFormattedDate}}</b></div>
   <div id="meetingDate">Estimated meeting length: <b>{{myHours}} hours</b> and <b>{{myMinutes}} minutes</b></div>
-  <div id="selDateText"><b>{{myFormattedSelDate}}</b></div>
+  <div id="selDateText"><b>{{myFormattedSelDate}}</b>
+     <span data-toggle='tooltip' title='White=Free &#013;Black=Conflict &#013;Gray=Not Enough Time'>
+        <img id="question" src="../../assets/images/questionmark.png">
+     </span>
+    </div>
 </div>
 
 <mat-calendar [minDate]="today" [maxDate]="dueDate" id="myCalendar" #calendar [selected]="selDate" (selectedChange)="getChangedValue($event)"></mat-calendar>

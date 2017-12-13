@@ -23,7 +23,7 @@
 <mat-card class="memberCard" *ngFor="let num of numMembersArray">
     <span>{{num}}. </span>
     <input class="emails" type="email" (input)="emailChange($event,num)" [(ngModel)]="members[num]" placeholder="Email">
-    <span (click)="remove(num)">
+    <span *ngIf="num!=1" (click)="remove(num)">
         <img class="remove" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/2000px-Red_X.svg.png">
     </span>
 </mat-card>
@@ -44,7 +44,7 @@
     <div class="error" *ngIf="noTime">
         Please include a estimated time length.
     </div>
-    <div class="error" *ngIf="noGroup">
-        Please include at least one other group member.
+    <div class="error" *ngIf="notAllFilledIn">
+        Please fill in all emails for your members.
     </div>
 </div>

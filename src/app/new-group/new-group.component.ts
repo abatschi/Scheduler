@@ -28,6 +28,8 @@ export class NewGroupComponent implements OnInit {
   noDate = false;
   noGroup = false;
 
+  notAllFilledIn = false;
+
   constructor(private _dataService: DataService, private router: Router) { }
 
   ngOnInit() {
@@ -61,7 +63,10 @@ export class NewGroupComponent implements OnInit {
   }
 
   email() {
-    this.hasErrors=false;
+    this.hasErrors = false;
+    this.noDate = false;
+    this.noTime = false;
+    this.notAllFilledIn = false;
     if (!this.date) {
       this.noDate = true;
       this.hasErrors = true;
@@ -70,9 +75,11 @@ export class NewGroupComponent implements OnInit {
       this.noTime = true;
       this.hasErrors = true;
     }
-    if (this.members[1] == "") {
-      this.noGroup = true;
-      this.hasErrors = true;
+    for (let member of this.members) {
+      if (member == "") {
+        this.notAllFilledIn = true;
+        this.hasErrors = true;
+      }
     }
     if (!this.hasErrors) {
       this._dataService.newGroup(this.members, this.date, this.numHours, this.numMinutes)
