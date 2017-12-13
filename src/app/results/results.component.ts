@@ -196,8 +196,6 @@ export class ResultsComponent implements OnInit {
         }
 
       }
-
-      console.log(myConflicts);
       // for (let i = 1; i < myConflicts.length - 1; i += 2) {
       for (let i = 0; i < myConflicts.length - 1; i += 2) {
 

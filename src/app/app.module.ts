@@ -23,6 +23,7 @@ import {
   MatSelectModule,
   MatButtonModule,
   MatMenuModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 
 
@@ -59,6 +60,7 @@ const appRoutes: Routes = [
     ResultsComponent,
   ],
   imports: [
+    MatProgressSpinnerModule,
     MatButtonModule,
     MatMenuModule,
     MatSelectModule,

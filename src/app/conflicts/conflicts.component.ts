@@ -33,7 +33,6 @@ export class ConflictsComponent implements OnInit {
   ngOnInit() {
     this.conflicts=[];
     this.conflicts.push({ date: "", fromTime: "09:00", toTime: "10:00", repeat: false });
-
     this.today = new Date();
     for (let i = 0; i < 24; i++) {
       var tempi = "" + i;
@@ -108,6 +107,7 @@ export class ConflictsComponent implements OnInit {
   // }
 
   submit() {
+    console.log(this.conflicts);
     this.errorIndexs=[];
     for(let i=0; i<this.conflicts.length; i++){
       if(this.conflicts[i].date=="" || !this.timeIsLess(this.conflicts[i].fromTime, this.conflicts[i].toTime)){
@@ -115,7 +115,11 @@ export class ConflictsComponent implements OnInit {
       }
     }
     if(this.errorIndexs.length==0){
-    for (let conflict of this.conflicts) {
+      let length = this.conflicts.length;
+      for(let j=0; j<length; j++){
+        let conflict = this.conflicts[j];
+    // for (let conflict of this.conflicts) {
+      console.log(conflict);
       if (conflict.repeat && conflict.date.includes("day")) {
         var tempDate = new Date();
         var i = 1;
@@ -123,12 +127,13 @@ export class ConflictsComponent implements OnInit {
         while (!this.dateEquals(tempDate, dayAfterDueDate)) {
           if (conflict.date.includes(this.dayNames[tempDate.getDay()])) {
             this.conflicts.push({ date: tempDate.toISOString(), fromTime: conflict.fromTime, toTime: conflict.toTime, repeat: false });
+            console.log(this.conflicts);
           }
           tempDate = new Date(new Date().getTime() + 24 * i * 60 * 60 * 1000);
           i++;
         }
-        let index = this.conflicts.indexOf(conflict);
-        this.conflicts.splice(index, 1);
+        // let index = this.conflicts.indexOf(conflict);
+        // this.conflicts.splice(index, 1);
       }
     }
     this._dataService.newConflicts(this.groupId, this.email, this.conflicts)
