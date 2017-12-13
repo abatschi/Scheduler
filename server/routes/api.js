@@ -136,21 +136,21 @@ function sendEmail(groupId, email, doneEmail) {
         };
         var transporter = nodemailer.createTransport(smtpConfig);
 
-        var newGroupLink = 'http://localhost:3000';
-        // var newGroupLink = 'http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/'
+        // var newGroupLink = 'http://localhost:3000';
+        var newGroupLink = 'http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/'
 
         var myHtml = "";
         var mySSubject = "";
         if (doneEmail) {
-            //var myResultsLink = "http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/results/" + groupId// html body
-            var myResultsLink = "http://localhost:3000/results/" + groupId // html body
+            var myResultsLink = "http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/results/" + groupId// html body
+            // var myResultsLink = "http://localhost:3000/results/" + groupId // html body
 
             myHtml = resultsEmail.replace("resultsURL", myResultsLink);
             mySubject = "View Results";
         }
         else {
-            // var myConflictsLink= "http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/conflicts/" + groupId + "/" + email // html body
-            var myConflictsLink = ("http://localhost:3000/conflicts/" + groupId + "/" + email); // html body
+            var myConflictsLink= "http://ec2-18-221-67-154.us-east-2.compute.amazonaws.com:3000/conflicts/" + groupId + "/" + email // html body
+            // var myConflictsLink = ("http://localhost:3000/conflicts/" + groupId + "/" + email); // html body
             console.log(groupId);
             myHtml = conflictsEmail.replace("conflictURL", myConflictsLink);
             mySubject = "Add Conflicts";
