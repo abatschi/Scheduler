@@ -110,8 +110,9 @@ export class ResultsComponent implements OnInit {
             if (myConflicts.indexOf(conflict2) == -1) {
               myConflicts.push(conflict2);
             }
-            myConflicts.sort();
 
+            myConflicts.sort();
+            console.log(myConflicts);
             let numStart = "0";
             if (conflict.fromTime[0] == "0") {
               numStart = conflict.fromTime.substring(1, 2);
@@ -180,59 +181,60 @@ export class ResultsComponent implements OnInit {
           }
         }
       }
+    }
+    console.log(myConflicts);
+    let myMinutes = this.group.numMinutes;
+    if (myMinutes == '0' || myMinutes == '') {
+      myMinutes = '00';
+    }
+    myConflicts = myConflicts.splice(1, myConflicts.length - 2);
+    let length = Number(this.group.numHours + myMinutes);
+    // for (let i = 1; i < myConflicts.length - 1; i += 2) {
+    for (let i = 0; i < myConflicts.length - 1; i += 2) {
 
-      let myMinutes = this.group.numMinutes;
-      if (myMinutes == '0' || myMinutes == '') {
-        myMinutes = '00';
+      let diff = Number(myConflicts[i + 1]) - Number(myConflicts[i]);
+      if (myConflicts[i + 1].substring(2, 4) < myConflicts[i].substring(2, 4)) {
+        diff -= 40;
       }
-      myConflicts = myConflicts.splice(1, myConflicts.length - 2);
-      let length = Number(this.group.numHours + myMinutes);
-      // for (let i = 1; i < myConflicts.length - 1; i += 2) {
-      for (let i = 0; i < myConflicts.length - 1; i += 2) {
-
-        let diff = Number(myConflicts[i + 1]) - Number(myConflicts[i]);
-        if (myConflicts[i + 1].substring(2, 4) < myConflicts[i].substring(2, 4)) {
-          diff -= 40;
-        }
-        if (diff > length) {
-          myConflicts.splice(i, 2);
-        }
-
+      if (diff > length) {
+        myConflicts.splice(i, 2);
       }
-      // for (let i = 1; i < myConflicts.length - 1; i += 2) {
-      for (let i = 0; i < myConflicts.length - 1; i += 2) {
 
-        let numStart = '0';
-        if (myConflicts[i][0] == "0") {
-          numStart = myConflicts[i].substring(1, 2);
-        }
-        else {
-          numStart = myConflicts[i].substring(0, 2);
-        }
+    }
+    console.log(myConflicts);
+    // for (let i = 1; i < myConflicts.length - 1; i += 2) {
+    for (let i = 0; i < myConflicts.length - 1; i += 2) {
 
-        let numEnd = '0';
-        if (myConflicts[i + 1][0] == "0") {
-          numEnd = myConflicts[i + 1].substring(1, 2);
-        }
-        else {
-          numEnd = myConflicts[i + 1].substring(0, 2);
-        }
-
-        numStart = "" + (Number(numStart) + 1);
-        numEnd = "" + (Number(numEnd) + 1);
-
-        let newStartStyle = document.getElementById("block" + numStart).style.background.replace('rgb(255, 255, 255)', 'rgb(100, 100, 100)');
-        let newEndStyle = document.getElementById("block" + numEnd).style.background.replace('rgb(255, 255, 255)', 'rgb(100, 100, 100)');
-        document.getElementById("block" + numStart).style.background = newStartStyle;
-        document.getElementById("block" + numEnd).style.background = newEndStyle;
-
-        for (let start = Number(numStart) + 1; start < Number(numEnd); start++) {
-          let newEndStyle = document.getElementById("block" + start).style.background.replace('rgb(255, 255, 255)', 'rgb(100, 100, 100)');
-          document.getElementById("block" + start).style.background = newEndStyle;
-        }
-
-
+      let numStart = '0';
+      if (myConflicts[i][0] == "0") {
+        numStart = myConflicts[i].substring(1, 2);
       }
+      else {
+        numStart = myConflicts[i].substring(0, 2);
+      }
+
+      let numEnd = '0';
+      if (myConflicts[i + 1][0] == "0") {
+        numEnd = myConflicts[i + 1].substring(1, 2);
+      }
+      else {
+        numEnd = myConflicts[i + 1].substring(0, 2);
+      }
+
+      numStart = "" + (Number(numStart) + 1);
+      numEnd = "" + (Number(numEnd) + 1);
+
+      let newStartStyle = document.getElementById("block" + numStart).style.background.replace('rgb(255, 255, 255)', 'rgb(100, 100, 100)');
+      let newEndStyle = document.getElementById("block" + numEnd).style.background.replace('rgb(255, 255, 255)', 'rgb(100, 100, 100)');
+      document.getElementById("block" + numStart).style.background = newStartStyle;
+      document.getElementById("block" + numEnd).style.background = newEndStyle;
+
+      for (let start = Number(numStart) + 1; start < Number(numEnd); start++) {
+        let newEndStyle = document.getElementById("block" + start).style.background.replace('rgb(255, 255, 255)', 'rgb(100, 100, 100)');
+        document.getElementById("block" + start).style.background = newEndStyle;
+      }
+
+
     }
 
 
