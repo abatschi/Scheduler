@@ -31,4 +31,9 @@ export class DataService {
       .map(result => this.result = result);
   }
 
+  sendEmail(groupId, emailString, message, fromEmail){
+    return this._http.post("/api/sendEmail", { groupId: groupId, emailString: emailString, message: message, fromEmail: fromEmail})
+    .map(result => this.result = result);
+  }
+
 }

@@ -138,7 +138,7 @@ export class ConflictsComponent implements OnInit {
     }
     this._dataService.newConflicts(this.groupId, this.email, this.conflicts)
       .subscribe((res) => {
-        this.router.navigate(['/results', this.groupId]);
+        this.router.navigate(['/results', this.groupId, this.email]);
       });
     }
 
@@ -197,7 +197,7 @@ export class ConflictsComponent implements OnInit {
     this.conflicts[0].date="No Conflicts";
     this._dataService.newConflicts(this.groupId, this.email, this.conflicts)
     .subscribe((res) => {
-      this.router.navigate(['/results', this.groupId]);
+      this.router.navigate(['/results', this.groupId, this.email]);
     });
   }
 

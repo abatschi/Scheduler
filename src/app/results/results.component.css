@@ -101,3 +101,13 @@
     width: 12px;
     padding-bottom: 3px;
 }
+
+#emailInput{
+    width: 80%;
+    padding-left: 15px;
+    padding-top: 20px;
+}
+
+#sendEmailButton{
+    margin-left: 10px;
+}

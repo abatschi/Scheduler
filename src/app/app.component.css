@@ -2,35 +2,44 @@
     -webkit-mask-image: -webkit-linear-gradient(right, rgba(0,0,0,1), rgba(0,0,0,0));
     width: 280px;
     height: 150px;
+    /* width: 25vw; */
+    /* height: 25vh; */
     float:right;
 }
 
 #headerBody{
-    /* background-image: url('../assets/images/backgroundBlue.jpg'); */
-    background-image: url('../assets/images/backgroundBlue2.jpg');    
-    /* background-size: contain; */
+    background-image: url('../assets/images/backgroundBlue2.jpg');
     width:100%;
     height:150px;
     box-shadow: 0px 10px 10px #888888;
+
+        /* height: 25vh;
+        box-shadow: 0px 2vh 2vh #888888; */
 }
 
 #title{
     font-family: 'Montserrat', sans-serif;
     color:white;
-    width: 500px;
+    /* width: 500px; */
     font-size:50px;
     /* float:left; */
     padding: 20px 0px 0px 40px;
+
+    /* font-size: 3em;
+    padding: 4vh 0px 0px 4vw; */
     cursor: pointer;
 }
 
 #subtitle{
     font-family: 'Montserrat', sans-serif;
     color:white;
-    width: 510px;
+    /* width: 510px; */
     font-size:20px;
     /* float:left; */
-    padding: 0px 0px 0px 50px;
+    padding-left:  50px;
+
+    /* font-size: 1.5em;
+    padding-left: 4.5vw; */
     cursor: pointer;
 }
 

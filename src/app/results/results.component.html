@@ -86,6 +86,12 @@
     --><span class="block" id="block24" matTooltip=""></span>
   </div>
 </span>
-  
 
+<mat-form-field id="emailInput" *ngIf="allReported && myEmail=='organizer'">
+    
+    <textarea id="emailTextArea" matInput placeholder="Write an email to all other group members" matTextareaAutosize matAutosizeMinRows="2"
+              matAutosizeMaxRows="10" [(ngModel)]="myEmailContent"></textarea>
+                   
+  </mat-form-field>
+  <button id="sendEmailButton" type="button" class="btn btn-primary" (click)="sendEmail()">Send Email</button>  
 

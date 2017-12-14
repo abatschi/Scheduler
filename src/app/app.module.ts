@@ -37,7 +37,7 @@ const appRoutes: Routes = [
     component: NewGroupComponent,
   },
   {
-    path: 'results/:groupId',
+    path: 'results/:groupId/:email',
     component: ResultsComponent,
   },
   {

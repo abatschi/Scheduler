@@ -37,6 +37,8 @@ export class ResultsComponent implements OnInit {
 
   myEmail = "";
 
+  myEmailContent = "";
+
   constructor(private _dataService: DataService, private route: ActivatedRoute, ) {
 
   }
@@ -46,6 +48,7 @@ export class ResultsComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.groupId = params['groupId'];
+      this.myEmail = params['email'];
       this._dataService.getMembers(this.groupId)
         .subscribe((res) => {
           this.group = JSON.parse(res["_body"]);
@@ -250,6 +253,26 @@ export class ResultsComponent implements OnInit {
 
   refresh() {
     window.location.reload();
+  }
+
+  sendEmail() {
+    var myEmails = "";
+    for (let member of this.members) {
+      if (member.email != 'organizer') {
+        if (myEmails == "") {
+          myEmails += member.email;
+        }
+        else {
+          myEmails += (', ' + member.email);
+        }
+      }
+    }
+    if (myEmails != "") {
+      this._dataService.sendEmail(this.groupId, myEmails, this.myEmailContent, this.myEmail)
+        .subscribe((res) => {
+          console.log(res);
+        });
+    }
   }
 
 
