@@ -86,7 +86,7 @@ export class NewGroupComponent implements OnInit {
         .subscribe((res) => {
           let groupId = res['_body'];
           groupId = groupId.substring(1, groupId.length - 1);
-          //console.log(res['_body']);
+          console.log(res['_body']);
           this.router.navigate(['/conflicts', groupId, 'organizer']);
         });
     }

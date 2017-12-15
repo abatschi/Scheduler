@@ -16,7 +16,6 @@ export class DataService {
   }
 
   newGroup(users, date, numHours, numMinutes) {
-    console.log("calling");
     return this._http.post("/api/newGroup", {users:users, date:date, numHours:numHours, numMinutes:numMinutes})
       .map(result => this.result = result);
   }

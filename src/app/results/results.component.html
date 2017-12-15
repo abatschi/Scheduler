@@ -93,5 +93,5 @@
               matAutosizeMaxRows="10" [(ngModel)]="myEmailContent"></textarea>
                    
   </mat-form-field>
-  <button id="sendEmailButton" type="button" class="btn btn-primary" (click)="sendEmail()">Send Email</button>  
+  <button *ngIf="allReported && myEmail=='organizer'" id="sendEmailButton" type="button" class="btn btn-primary" (click)="sendEmail()">Send Email</button>  
 
